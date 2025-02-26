@@ -15,6 +15,7 @@ const API_ENDPOINT = BASE_URL + "/fetch_agent_ta_output";
 
 const allowedChannels = [
     '1342500995896180786',
+    '1343696393952297042'
 ];
 
 
@@ -47,12 +48,8 @@ client.on('messageCreate', async message => {
         // Fetch the last 100 messages from the channel
         const messages = await message.channel.messages.fetch({ limit: 100 });
 
-        // Get all messages from this user, sorted newest to oldest (excluding current message)
-        const userMessages = messages
-            .filter(msg => msg.author.id === message.author.id && msg.id !== message.id)
-            .sort((a, b) => b.createdTimestamp - a.createdTimestamp);
-
-        // Find the bot's most recent reply to this user
+        // Find the latest user message + bot reply pair
+        let previousUserMessage = null;
         let previousBotReply = null;
         for (const msg of messages.values()) {
             if (
@@ -66,16 +63,22 @@ client.on('messageCreate', async message => {
                     content: msg.content,
                     timestamp: msg.createdTimestamp,
                 };
-                break;  // Take the most recent reply
+                previousUserMessage = {
+                    content: messages.get(msg.reference.messageId).content,
+                    timestamp: messages.get(msg.reference.messageId).createdTimestamp,
+                };
+                break;  // Take the most recent pair
             }
         }
 
         console.log("User's current message:", message.content);
+        console.log("Previous user message:", previousUserMessage);
         console.log("Previous bot reply:", previousBotReply);
 
         // Prepare context for the API
         const context = {
             user_input: message.content,
+            previous_user_message: previousUserMessage ? previousUserMessage.content : null,
             previous_bot_reply: previousBotReply ? previousBotReply.content : null,
         };
 
