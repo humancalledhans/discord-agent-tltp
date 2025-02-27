@@ -11,7 +11,7 @@ const client = new Client({
 
 const TOKEN = process.env.DISCORD_TOKEN;
 const BASE_URL = process.env.VUE_APP_BASE_URL_HANS ? process.env.VUE_APP_BASE_URL_HANS : "https://dion-avatar-backend.onrender.com"
-const API_ENDPOINT = BASE_URL + "/fetch_agent_output";
+const API_ENDPOINT = BASE_URL + "/fetch_agent_ta_output";
 
 const allowedChannels = [
     '1342500995896180786',
