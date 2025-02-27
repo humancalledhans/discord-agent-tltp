@@ -14,8 +14,8 @@ const BASE_URL = process.env.VUE_APP_BASE_URL_HANS ? process.env.VUE_APP_BASE_UR
 const API_ENDPOINT = BASE_URL + "/fetch_agent_output";
 
 const allowedChannels = [
-    '1341191250266554500',
-    '1343692906656956496',
+    '1342500995896180786',
+    '1343696393952297042'
 ];
 
 client.once('ready', () => {
