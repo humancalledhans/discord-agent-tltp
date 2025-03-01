@@ -94,7 +94,21 @@ client.on('messageCreate', async message => {
         console.log('API response data:', response.data.data);
 
         await thinkingMessage.delete();
-        await message.reply(response.data.data.slice(0, 1999));
+
+        // Split response into chunks under 2000 characters
+        const responseText = response.data.data;
+        const maxLength = 1999;
+        const chunks = [];
+
+        for (let i = 0; i < responseText.length; i += maxLength) {
+            chunks.push(responseText.slice(i, i + maxLength));
+        }
+
+        // Send each chunk as a separate message
+        for (const chunk of chunks) {
+            await message.reply(chunk);
+        }
+
     } catch (error) {
         console.error('Error:', error);
         if (thinkingMessage) {
