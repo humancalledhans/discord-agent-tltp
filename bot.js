@@ -15,7 +15,15 @@ const API_ENDPOINT = BASE_URL + "/fetch_agent_ta_output";
 
 const allowedChannels = [
     '1342500995896180786',
-    '1343696393952297042'
+    '1343696393952297042',
+
+    '1347477685659766804',
+    '1347477793797312583',
+    '1346622225796829206',
+    '1347477967281852468',
+    '1347478596632973354',
+
+
 ];
 
 client.once('ready', () => {
@@ -28,6 +36,11 @@ client.on('messageCreate', async message => {
 
     if (!allowedChannels.includes(message.channel.id)) {
         console.log("Ignoring message from channel:", message.channel.id);
+        return;
+    }
+
+    if (message.content.includes('@everyone')) {
+        console.log("Ignoring message with @everyone");
         return;
     }
 
