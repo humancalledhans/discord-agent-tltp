@@ -23,6 +23,11 @@ const allowedChannels = [
     '1347478596632973354',
 ];
 
+const ignoredUsers = [
+    '698705676704415796',   // Replace with @dionpouncil's actual user ID
+    '1184896707637559336',  // Replace with @admin - athena's actual user ID
+];
+
 client.once('ready', () => {
     console.log('Bot is ready!');
 });
@@ -31,12 +36,18 @@ client.on('messageCreate', async message => {
     console.log("messageCreate event triggered");
     console.log("message received: ", message.content);
 
+    // Ignore messages from specific users
+    if (ignoredUsers.includes(message.author.id)) {
+        console.log(`Ignoring message from ${message.author.tag} (ID: ${message.author.id})`);
+        return;
+    }
+
     if (!allowedChannels.includes(message.channel.id)) {
         console.log("Ignoring message from channel:", message.channel.id);
         return;
     }
 
-    if (message.content.includes('@everyone') || message.content.includes('@dionpouncil') || message.content.includes("@Admin - Athena") ) {
+    if (message.content.includes('@everyone') || message.content.includes('@dionpouncil') || message.content.includes("@Admin - Athena")) {
         console.log("Ignoring message with @everyone");
         return;
     }
